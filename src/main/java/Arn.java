@@ -7,7 +7,7 @@ public class Arn {
         System.out.print("\n");
 
         Scanner scanner = new Scanner(System.in);
-        String[] strArr = new String[100];
+        Task[] taskArr = new Task[100];
         int freePointer = 0;
         String input = "";
 
@@ -19,20 +19,40 @@ public class Arn {
                 break;
             } else if (input.equals("list")) {
                 int index = 1;
-                for (String task: strArr) {
+                for (Task task: taskArr) {
                     if (task == null) {
                         break;
                     }
-                    System.out.println(index + ". " + task);
+                    System.out.println(index + ". [" + task.getStatusIcon() + "] " + task.description);
                     index++;
                 }
-                System.out.print("\n");
+            } else if (input.contains(" ")) {
+                String[] parts = input.split(" ");
+                if (parts[0].equals("mark")) {
+                    int i = Integer.parseInt(parts[1]) - 1;
+                    if (taskArr[i] != null) {
+                        taskArr[i].markAsDone();
+                        System.out.println("Task marked as done:");
+                        System.out.println(" [" + taskArr[i].getStatusIcon() + "] " + taskArr[i].description);
+                    }
+                } else if (parts[0].equals("unmark")) {
+                    int i = Integer.parseInt(parts[1]) - 1;
+                    if (taskArr[i] != null) {
+                        taskArr[i].markAsNotDone();
+                        System.out.println("Task marked as not done:");
+                        System.out.println(" [" + taskArr[i].getStatusIcon() + "] " + taskArr[i].description);
+                    }
+                } else {
+                    taskArr[freePointer] = new Task(input);
+                    freePointer++;
+                    System.out.println("added: " + input);
+                }
             } else {
-                strArr[freePointer] = input;
+                taskArr[freePointer] = new Task(input);
                 freePointer++;
                 System.out.println("added: " + input);
-                System.out.print("\n");
             }
+            System.out.println("");
         }
 
         scanner.close();
