@@ -7,6 +7,8 @@ public class Arn {
         System.out.print("\n");
 
         Scanner scanner = new Scanner(System.in);
+        String[] strArr = new String[100];
+        int freePointer = 0;
         String input = "";
 
         while(true) {
@@ -15,8 +17,20 @@ public class Arn {
             if (input.equals("bye")) {
                 System.out.println("Bye. Hope to see you again soon!");
                 break;
+            } else if (input.equals("list")) {
+                int index = 1;
+                for (String task: strArr) {
+                    if (task == null) {
+                        break;
+                    }
+                    System.out.println(index + ". " + task);
+                    index++;
+                }
+                System.out.print("\n");
             } else {
-                System.out.println(input);
+                strArr[freePointer] = input;
+                freePointer++;
+                System.out.println("added: " + input);
                 System.out.print("\n");
             }
         }
