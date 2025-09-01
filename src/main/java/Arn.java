@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Arn {
     public static void main(String[] args) {
@@ -7,8 +8,7 @@ public class Arn {
         System.out.print("\n");
 
         Scanner scanner = new Scanner(System.in);
-        Task[] taskArr = new Task[100];
-        int freePointer = 0;
+        ArrayList<Task> taskList = new ArrayList<>();
         String input = "";
 
         while(true) {
@@ -21,7 +21,7 @@ public class Arn {
                     break;
                 } else if (input.equals("list")) {
                     int index = 1;
-                    for (Task task : taskArr) {
+                    for (Task task : taskList) {
                         if (task == null) {
                             break;
                         }
@@ -31,18 +31,22 @@ public class Arn {
                 } else if (input.startsWith("mark")) {
                     String[] parts = input.split(" ");
                     int i = Integer.parseInt(parts[1]) - 1;
-                    if (taskArr[i] != null) {
-                        taskArr[i].markAsDone();
+                    if (i >= 0 && i < taskList.size()) {
+                        taskList.get(i).markAsDone();
                         System.out.println("Task marked as done:");
-                        System.out.println(taskArr[i]);
+                        System.out.println(taskList.get(i));
+                    } else {
+                        throw new ArnException("Invalid task number");
                     }
                 } else if (input.startsWith("unmark")) {
                     String[] parts = input.split(" ");
                     int i = Integer.parseInt(parts[1]) - 1;
-                    if (taskArr[i] != null) {
-                        taskArr[i].markAsNotDone();
+                    if (i >= 0 && i < taskList.size()) {
+                        taskList.get(i).markAsNotDone();
                         System.out.println("Task marked as not done:");
-                        System.out.println(taskArr[i]);
+                        System.out.println(taskList.get(i));
+                    } else {
+                        throw new ArnException("Invalid task number");
                     }
                 } else if (input.startsWith("todo")) {
                     if (input.trim().equals("todo")) {
@@ -50,9 +54,8 @@ public class Arn {
                     }
                     int i = input.indexOf("todo ");
                     String description = input.substring(i + 5);
-                    taskArr[freePointer] = new Todo(description);
-                    System.out.println("added: " + taskArr[freePointer]);
-                    freePointer++;
+                    taskList.add(new Todo(description));
+                    System.out.println("added: " + taskList.get(taskList.size() - 1));
                 } else if (input.startsWith("deadline")) {
                     int i = input.indexOf("deadline ");
                     int j = input.indexOf("/by");
@@ -67,9 +70,8 @@ public class Arn {
                     if (date.isEmpty()) {
                         throw new ArnException("Empty date.");
                     }
-                    taskArr[freePointer] = new Deadline(description, date);
-                    System.out.println("added: " + taskArr[freePointer]);
-                    freePointer++;
+                    taskList.add(new Deadline(description, date));
+                    System.out.println("added: " + taskList.get(taskList.size() - 1));
                 } else if (input.startsWith("event")) {
                     int i = input.indexOf("event ");
                     int j = input.indexOf("/from");
@@ -90,9 +92,17 @@ public class Arn {
                         throw new ArnException("Empty end date.");
                     }
                     String date = startDate + " " + endDate;
-                    taskArr[freePointer] = new Event(description, date);
-                    System.out.println("added: " + taskArr[freePointer]);
-                    freePointer++;
+                    taskList.add(new Event(description, date));
+                    System.out.println("added: " + taskList.get(taskList.size() - 1));
+                } else if (input.startsWith("delete")) {
+                    String[] parts = input.split(" ");
+                    int i = Integer.parseInt(parts[1]) - 1;
+                    if (i >= 0 && i < taskList.size()) {
+                        Task t = taskList.remove(i);
+                        System.out.println("Task removed: " + t.toString());
+                    } else {
+                        throw new ArnException("Invalid task number");
+                    }
                 } else {
                     throw new ArnException("Sorry, not a valid command.");
                 }
