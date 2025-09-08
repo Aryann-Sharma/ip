@@ -9,6 +9,8 @@ public class Arn {
 
         Scanner scanner = new Scanner(System.in);
         ArrayList<Task> taskList = new ArrayList<>();
+        TaskFileHandler taskFileHandler = new TaskFileHandler("./src/main/java/data/arn.txt");
+        taskList = taskFileHandler.readTasks();
         String input = "";
 
         while(true) {
