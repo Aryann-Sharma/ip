@@ -114,6 +114,7 @@ public class Arn {
                 System.out.println("Something went wrong: " + e.getMessage());
             }
 
+            taskFileHandler.writeTasks(taskList);
             System.out.println("");
         }
 
