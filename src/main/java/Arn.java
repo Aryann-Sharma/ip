@@ -68,12 +68,17 @@ public class Arn {
                     if (description.isEmpty()) {
                         throw new ArnException("Empty task description.");
                     }
-                    String date = input.substring(j + 1).trim();
+                    String date = input.substring(j + 3).trim();
                     if (date.isEmpty()) {
                         throw new ArnException("Empty date.");
                     }
-                    taskList.add(new Deadline(description, date));
-                    System.out.println("added: " + taskList.get(taskList.size() - 1));
+                    try {
+                        Deadline d = new Deadline(description, date);
+                        taskList.add(d);
+                        System.out.println("added: " + taskList.get(taskList.size() - 1));
+                    } catch (ArnException e) {
+                        System.out.println("Error: " + e.getMessage());
+                    }
                 } else if (input.startsWith("event")) {
                     int i = input.indexOf("event ");
                     int j = input.indexOf("/from");
@@ -85,17 +90,21 @@ public class Arn {
                     if (description.isEmpty()) {
                         throw new ArnException("Empty task description");
                     }
-                    String startDate = input.substring(j + 1, k - 1).trim();
-                    String endDate = input.substring(k + 1).trim();
+                    String startDate = input.substring(j + 5, k - 1).trim();
+                    String endDate = input.substring(k + 3).trim();
                     if (startDate.isEmpty()) {
                         throw new ArnException("Empty start date.");
                     }
                     if (endDate.isEmpty()) {
                         throw new ArnException("Empty end date.");
                     }
-                    String date = startDate + " " + endDate;
-                    taskList.add(new Event(description, date));
-                    System.out.println("added: " + taskList.get(taskList.size() - 1));
+                    try {
+                        Event e = new Event(description, startDate, endDate);
+                        taskList.add(e);
+                        System.out.println("added: " + taskList.get(taskList.size() - 1));
+                    } catch (ArnException e) {
+                        System.out.println("Error: " + e.getMessage());
+                    }
                 } else if (input.startsWith("delete")) {
                     String[] parts = input.split(" ");
                     int i = Integer.parseInt(parts[1]) - 1;

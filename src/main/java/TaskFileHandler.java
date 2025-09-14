@@ -5,6 +5,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class TaskFileHandler {
     protected String filePath;
@@ -28,12 +30,10 @@ public class TaskFileHandler {
             br = new BufferedReader(new FileReader(file));
             String line = br.readLine();
             while (line != null) {
-                try {
-                    Task task = parseTask(line);
-                    if (task != null) {
-                        taskList.add(task);
-                    }
-                } catch (Exception e) {
+                Task task = parseTask(line);
+                if (task != null) {
+                    taskList.add(task);
+                } else {
                     System.out.println("Skipped a corrupted line");
                 }
                 line = br.readLine();
@@ -57,12 +57,16 @@ public class TaskFileHandler {
         Task task = null;
         String[] parts = line.split("\\|");
         String taskType = parts[0].trim();
-        if (taskType.equals("T")) {
-            task = new Todo(parts[2].trim());
-        } else if (taskType.equals("D")) {
-            task = new Deadline(parts[2].trim(), parts[3].trim());
-        } else if (taskType.equals("E")) {
-            task = new Event(parts[2].trim(), "from " + parts[3].trim() + " to " + parts[4].trim());
+        try {
+            if (taskType.equals("T")) {
+                task = new Todo(parts[2].trim());
+            } else if (taskType.equals("D")) {
+                task = new Deadline(parts[2].trim(), parts[3].trim());
+            } else if (taskType.equals("E")) {
+                task = new Event(parts[2].trim(), parts[3].trim(), parts[4].trim());
+            }
+        } catch (ArnException e) {
+            return null;
         }
 
         if (parts[1].trim().equals("1")) {
@@ -87,14 +91,11 @@ public class TaskFileHandler {
                     line = "T | " + (task.isDone ? "1" : "0") + " | " + task.description;
                 } else if (task instanceof Deadline) {
                     Deadline d = (Deadline) task;
-                    line = "D | " + (task.isDone ? "1" : "0") + " | " + d.description + " | " + d.date;
+                    line = "D | " + (task.isDone ? "1" : "0") + " | " + d.description + " | " + d.formatDate(false);
                 } else if (task instanceof Event) {
                     Event e = (Event) task;
-                    line = "E | " + (task.isDone ? "1" : "0") + " | " + e.description + " | ";
-                    String date = e.date;
-                    String startDate = date.substring(5, date.indexOf(" to "));
-                    String endDate = date.substring(date.indexOf(" to ") + 4);
-                    line = line + startDate + " | " + endDate;
+                    line = "E | " + (task.isDone ? "1" : "0") + " | " + e.description + " | "
+                            + e.formatStartDate(false) + " | " + e.formatEndDate(false);
                 }
 
                 bw.write(line);
