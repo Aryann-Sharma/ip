@@ -5,11 +5,25 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+/**
+ * Represents a task of type Event with a description, a start date, and end date.
+ *
+ */
 public class Event extends Task {
     protected LocalDateTime startDate;
     protected LocalDateTime endDate;
     private boolean hasTime = true;
 
+
+    /**
+     * Constructs an Event with the given description, start date, and end date.
+     * Accepts formats: yyyy-MM-dd or yyyy-MM-dd HHmm.
+     *
+     * @param description description of the event
+     * @param startDate start date of the event
+     * @param endDate end date of the event
+     * @throws ArnException if the date formats are invalid
+     */
     public Event(String description, String startDate, String endDate) throws ArnException {
         super(description);
         DateTimeFormatter dateTimeFmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");

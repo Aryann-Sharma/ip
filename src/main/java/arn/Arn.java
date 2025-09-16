@@ -1,6 +1,12 @@
 package arn;
 import java.util.ArrayList;
 
+/**
+ * Main entry point for Arn application
+ * <p>
+ * Initializes the user interface, loads tasks from
+ * storage, and processes user commands until termination.
+ */
 public class Arn {
     public static void main(String[] args) {
         Ui ui = new Ui();

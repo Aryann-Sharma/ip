@@ -9,12 +9,30 @@ import java.util.ArrayList;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+/**
+ * Handles reading from and writing to the task save data file.
+ * <p>
+ * Provides persistent storage so that tasks are saved
+ * between runs of the application.
+ */
 public class TaskFileHandler {
     protected String filePath;
+
+    /**
+     * Constructs a TaskFileHandler with the given file path.
+     *
+     * @param filePath the path to the data file
+     */
     public TaskFileHandler(String filePath) {
         this.filePath = filePath;
     }
 
+
+    /**
+     * Reads tasks from the data file.
+     *
+     * @return the list of tasks loaded from storage
+     */
     public ArrayList<Task> readTasks() {
         ArrayList<Task> taskList = new ArrayList<>();
         File file = new File(filePath);
@@ -54,6 +72,12 @@ public class TaskFileHandler {
         return taskList;
     }
 
+
+    /**
+     * Parses the given line to convert into task
+     *
+     * @param line the line to be parsed
+     */
     public Task parseTask(String line) {
         Task task = null;
         String[] parts = line.split("\\|");
@@ -79,6 +103,12 @@ public class TaskFileHandler {
         return task;
     }
 
+
+    /**
+     * Writes the given tasks to the data file.
+     *
+     * @param taskList the tasks to be saved
+     */
     public void writeTasks(ArrayList<Task> taskList) {
         File file = new File(filePath);
         if (!file.exists()) {
