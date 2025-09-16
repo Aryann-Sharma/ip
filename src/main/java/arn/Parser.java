@@ -1,4 +1,9 @@
 package arn;
+
+/**
+ * Parses and interprets user commands,
+ * then updates the task list and UI accordingly.
+ */
 public class Parser {
     protected TaskList taskList;
     protected Ui ui;
