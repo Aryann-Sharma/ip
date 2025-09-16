@@ -1,5 +1,7 @@
 package arn;
 
+import java.util.ArrayList;
+
 /**
  * Parses and interprets user commands,
  * then updates the task list and UI accordingly.
@@ -108,6 +110,22 @@ public class Parser {
                 ui.displayMsg("Task removed: " + t.toString());
             } catch (ArnException e) {
                 throw e;
+            }
+        } else if (input.startsWith("find ")) {
+            String keyword = input.substring(4).trim();
+            if (keyword.isEmpty()) {
+                throw new ArnException("Empty keyword.");
+            }
+            ArrayList<Task> matchList = taskList.find(keyword);
+            if (matchList.isEmpty()) {
+                ui.displayMsg("Sorry, no matching tasks found.");
+            } else {
+                ui.displayMsg("Here are the matching tasks in your list:");
+                int index = 1;
+                for (Task task : matchList) {
+                    ui.displayMsg(index + ". " + task);
+                    index++;
+                }
             }
         } else {
             throw new ArnException("Sorry, not a valid command.");
