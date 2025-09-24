@@ -1,5 +1,9 @@
 package arn;
 import java.util.ArrayList;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.stage.Stage;
 
 /**
  * Main entry point for Arn application
@@ -7,7 +11,7 @@ import java.util.ArrayList;
  * Initializes the user interface, loads tasks from
  * storage, and processes user commands until termination.
  */
-public class Arn {
+public class Arn extends Application {
     public static void main(String[] args) {
         Ui ui = new Ui();
         ui.displayGreet();
@@ -33,5 +37,14 @@ public class Arn {
         }
 
         ui.close();
+    }
+
+    @Override
+    public void start(Stage stage) {
+        Label helloWorld = new Label("Hello World!");
+        Scene scene = new Scene(helloWorld);
+
+        stage.setScene(scene);
+        stage.show();
     }
 }
