@@ -1,9 +1,11 @@
 package arn;
 import java.util.ArrayList;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import java.io.IOException;
 
 /**
  * Main entry point for Arn application
@@ -12,6 +14,11 @@ import javafx.stage.Stage;
  * storage, and processes user commands until termination.
  */
 public class Arn extends Application {
+    TaskFileHandler taskFileHandler = new TaskFileHandler("./src/main/java/arn/data/arn.txt");
+    TaskList taskList = new TaskList(taskFileHandler.readTasks());
+    Ui ui = new Ui();
+    Parser parser = new Parser(taskList, ui);
+
     public static void main(String[] args) {
         Ui ui = new Ui();
         ui.displayGreet();
@@ -41,10 +48,20 @@ public class Arn extends Application {
 
     @Override
     public void start(Stage stage) {
-        Label helloWorld = new Label("Hello World!");
-        Scene scene = new Scene(helloWorld);
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(Arn.class.getResource("/view/MainWindow.fxml"));
+            AnchorPane ap = fxmlLoader.load();
+            Scene scene = new Scene(ap);
+            stage.setScene(scene);
+            fxmlLoader.<MainWindow>getController().setArn(this);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-        stage.setScene(scene);
-        stage.show();
+    public String getResponse(String input) {
+        String response = "ok";
+        return response;
     }
 }
