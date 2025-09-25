@@ -14,10 +14,10 @@ import java.io.IOException;
  * storage, and processes user commands until termination.
  */
 public class Arn extends Application {
-    TaskFileHandler taskFileHandler = new TaskFileHandler("./src/main/java/arn/data/arn.txt");
-    TaskList taskList = new TaskList(taskFileHandler.readTasks());
-    Ui ui = new Ui();
-    Parser parser = new Parser(taskList, ui);
+    TaskFileHandler taskFileHandler;
+    TaskList taskList;
+    Gui gui;
+    Parser parser;
 
     public static void main(String[] args) {
         Ui ui = new Ui();
@@ -49,6 +49,11 @@ public class Arn extends Application {
     @Override
     public void start(Stage stage) {
         try {
+            taskFileHandler = new TaskFileHandler("./src/main/java/arn/data/arn.txt");
+            taskList = new TaskList(taskFileHandler.readTasks());
+            gui = new Gui();
+            parser = new Parser(taskList, gui);
+
             FXMLLoader fxmlLoader = new FXMLLoader(Arn.class.getResource("/view/MainWindow.fxml"));
             AnchorPane ap = fxmlLoader.load();
             Scene scene = new Scene(ap);
@@ -61,7 +66,12 @@ public class Arn extends Application {
     }
 
     public String getResponse(String input) {
-        String response = "ok";
-        return response;
+        try {
+            parser.parse(input);
+            taskFileHandler.writeTasks(taskList.get());
+            return gui.getResponses();
+        } catch (ArnException e) {
+            return "Error: " + e.getMessage();
+        }
     }
 }
