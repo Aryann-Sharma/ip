@@ -1,0 +1,3 @@
+T | 1 | gym
+D | 0 | buy game | 2025-08-10
+T | 0 | bench in gym
