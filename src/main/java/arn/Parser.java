@@ -16,6 +16,7 @@ public class Parser {
     }
 
     public void parse(String input) throws ArnException {
+        assert input != null : "input must not be null";
         if (input.equals("bye")) {
             ui.displayBye();
         } else if (input.equals("list")) {
