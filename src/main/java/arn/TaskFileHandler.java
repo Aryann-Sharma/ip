@@ -79,6 +79,7 @@ public class TaskFileHandler {
      * @param line the line to be parsed
      */
     public Task parseTask(String line) {
+        assert line != null : "line in file must not be null";
         Task task = null;
         String[] parts = line.split("\\|");
         String taskType = parts[0].trim();
@@ -110,6 +111,7 @@ public class TaskFileHandler {
      * @param taskList the tasks to be saved
      */
     public void writeTasks(ArrayList<Task> taskList) {
+        assert taskList != null : "task list must not be null";
         File file = new File(filePath);
         if (!file.exists()) {
             file.getParentFile().mkdirs();

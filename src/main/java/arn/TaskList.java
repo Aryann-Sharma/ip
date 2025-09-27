@@ -14,6 +14,7 @@ public class TaskList {
      * @param taskList the list of tasks to initialize with
      */
     public TaskList(ArrayList<Task> taskList) {
+        assert taskList != null : "task list must not be null";
         this.taskList = taskList;
     }
 
