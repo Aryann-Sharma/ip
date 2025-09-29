@@ -1,4 +1,7 @@
 package arn;
+
+import java.time.LocalDateTime;
+
 public class Task {
     protected String description;
     protected boolean isDone;
@@ -23,6 +26,10 @@ public class Task {
 
     public void markAsNotDone() {
         this.isDone = false;
+    }
+
+    public LocalDateTime getDate() {
+        return null;
     }
 
     @Override

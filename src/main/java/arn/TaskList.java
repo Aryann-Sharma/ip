@@ -75,6 +75,18 @@ public class TaskList {
         return matchList;
     }
 
+    public ArrayList<Task> sortByDate() {
+        ArrayList<Task> sortList = new ArrayList<>();
+        for (Task task: taskList) {
+            if (task.getDate() != null) {
+                sortList.add(task);
+            }
+        }
+
+        sortList.sort(new DateComparator());
+        return sortList;
+    }
+
     public int size() {
         return taskList.size();
     }

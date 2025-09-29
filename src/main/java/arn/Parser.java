@@ -35,6 +35,8 @@ public class Parser {
             delete(input);
         } else if (input.startsWith("find ")) {
             find(input);
+        } else if (input.equals("sort")) {
+            sortByDate();
         } else {
             throw new ArnException("Sorry, not a valid command.");
         }
@@ -168,6 +170,19 @@ public class Parser {
             ui.displayMsg("Here are the matching tasks in your list:");
             int index = 1;
             for (Task task : matchList) {
+                ui.displayMsg(index + ". " + task);
+                index++;
+            }
+        }
+    }
+
+    public void sortByDate() {
+        ArrayList<Task> sortList = taskList.sortByDate();
+        if (sortList.isEmpty()) {
+            ui.displayMsg("No deadlines or events in the list");
+        } else {
+            int index = 1;
+            for (Task task : sortList) {
                 ui.displayMsg(index + ". " + task);
                 index++;
             }
