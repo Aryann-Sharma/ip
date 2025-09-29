@@ -66,6 +66,12 @@ public class Deadline extends Task{
                     : date.toLocalDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         }
     }
+
+    @Override
+    public LocalDateTime getDate() {
+        return this.date;
+    }
+
     @Override
     public String toString() {
         return "[" + this.getType() + "][" + this.getStatusIcon() + "] " + description + " (by " +
