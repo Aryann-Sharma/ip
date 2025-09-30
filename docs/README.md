@@ -1,33 +1,25 @@
 # Arn User Guide
 
-// Update the title above to match the actual product name
 
-// Product screenshot goes here
 ![Arn logo](../src/main/resources/images/ArnLogo.png)
 
-// Product intro goes here
+
 Arn is a chatbot that takes care of your scheduling needs, whether that be your friend's birthday party, or your exam date! 
 
-## Adding deadlines
+## List
 
-// Describe the action and its outcome.
 list
 
 Lists out all the tasks.
 
-// Give examples of usage
-
 Example: list
 
-// A description of the expected outcome goes here
 
 ```
 Prints list of tasks
 ```
 
-## Feature ABC
-
-// Feature details
+## Adding Todo tasks
 
 todo TASK
 
@@ -39,9 +31,7 @@ Example: todo gym
 added: [T][] gym
 ```
 
-## Feature XYZ
-
-// Feature details
+## Adding Deadline tasks
 
 deadline TASK /by DATE
 
@@ -60,6 +50,8 @@ Example: deadline assignment /by 2025-07-03 2359
 added: [D][] assignment (by Jul 3 2025, 11:59pm)
 ```
 
+## Adding Event tasks
+
 event TASK /from START_DATE /to END_DATE
 
 Adds a task of type Event to list (i.e. task with start and end dates).
@@ -77,6 +69,8 @@ Example: event meeting /from 2025-05-09 1600 /to 2025-05-09 1800
 added: [E][] meeting (from May 9 2025, 4:00pm to May 9 2025, 6:00pm)
 ```
 
+## Marking tasks 
+
 mark TASK_INDEX
 
 Marks a task in the list as "done". 
@@ -88,6 +82,8 @@ Example: mark 2
 Task marked as done:
 [D][X] insurance (by Jun 3 2025)
 ```
+
+## Unmarking tasks
 
 unmark TASK_INDEX
 
@@ -101,6 +97,8 @@ Task marked as not done:
 [D][] insurance (by Jun 3 2025)
 ```
 
+## Deleting tasks
+
 delete TASK_INDEX
 
 Deletes a task in the list.
@@ -112,6 +110,8 @@ Example: delete 2
 Task removed: [D][] insurance (by Jun 3 2025)
 ```
 
+## Finding tasks
+
 find TASK_DESCRIPTION
 
 Outputs a list of tasks that match the given description
@@ -122,6 +122,8 @@ Example: find meeting
 Here are the matching tasks in your list:
 1. [E][] meeting (from May 9 2025, 4:00pm to May 9 2025, 6:00pm)
 ```
+
+## Sorting tasks by dates
 
 sort
 
