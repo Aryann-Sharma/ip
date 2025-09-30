@@ -23,7 +23,7 @@ public class Arn extends Application {
         Ui ui = new Ui();
         ui.displayGreet();
 
-        TaskFileHandler taskFileHandler = new TaskFileHandler("./src/main/java/arn/data/arn.txt");
+        TaskFileHandler taskFileHandler = new TaskFileHandler("./data/arn.txt");
         TaskList taskList = new TaskList(taskFileHandler.readTasks());
         Parser parser = new Parser(taskList, ui);
         String input = "";
@@ -49,7 +49,7 @@ public class Arn extends Application {
     @Override
     public void start(Stage stage) {
         try {
-            taskFileHandler = new TaskFileHandler("./src/main/java/arn/data/arn.txt");
+            taskFileHandler = new TaskFileHandler("./data/arn.txt");
             taskList = new TaskList(taskFileHandler.readTasks());
             gui = new Gui();
             parser = new Parser(taskList, gui);
